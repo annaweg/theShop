@@ -1,0 +1,60 @@
+﻿@model theShop.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "www: Checkout";
+}
+
+<h2>Checkout now</h2>
+<p>Please enter your details, and we'll ship your goods right away</p>
+
+@using (Html.BeginForm())
+{
+    //p252 adding validation
+    @Html.ValidationSummary()
+    <h3>Ship to</h3>
+    <div class="form-group">
+        <label>Name:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Address</h3>
+    //nice feature to avoid repeated markup and duplication
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+        </div> 
+        }
+    }
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Complete order" />
+    </div>
+
+/*
+ * The old code
+<div class="form-group">
+    <label>Street:</label>
+    @Html.TextBoxFor(x => x.Street, new { @class = "form-control" })
+</div>
+
+<div class="form-group">
+    <label>Zip:</label>
+    @Html.TextBoxFor(x => x.Zip, new { @class = "form-control" })
+</div>
+
+<div class="form-group">
+    <label>City:</label>
+    @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+</div>
+
+<div class="form-group">
+    <label>Country:</label>
+    @Html.TextBoxFor(x => x.Country, new { @class = "form-control" })
+</div>
+    */
+}
+
